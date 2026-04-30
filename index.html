@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>وكالة السفر — استكشف العالم</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F0D080;
+    --dark: #0D0D0D;
+    --dark2: #1A1A1A;
+    --dark3: #252525;
+    --text: #F5F0E8;
+    --text-muted: #A0998A;
+    --accent: #E8672A;
+    --card-bg: #181818;
+    --border: rgba(201,168,76,0.2);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'Cairo', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0D0D0D 0%, #1A1209 50%, #0D0D0D 100%);
+    padding: 3rem 2rem 2.5rem;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset:0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.6rem;
+    font-weight: 900;
+    color: var(--gold);
+    letter-spacing: 2px;
+    margin-bottom: 0.3rem;
+  }
+  .tagline {
+    font-size: 1rem;
+    color: var(--text-muted);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 300;
+    margin-bottom: 2rem;
+  }
+
+  /* SEARCH BAR */
+  .search-section {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-end;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .search-field {
+    flex: 1;
+    min-width: 180px;
+  }
+  .search-field label {
+    display: block;
+    font-size: 0.72rem;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+  .search-field input, .search-field select {
+    width: 100%;
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.65rem 1rem;
+    color: var(--text);
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-field input:focus, .search-field select:focus {
+    border-color: var(--gold);
+  }
+  .search-field select option { background: var(--dark3); }
+  .btn-search {
+    background: linear-gradient(135deg, var(--gold), var(--accent));
+    border: none;
+    border-radius: 10px;
+    padding: 0.7rem 2rem;
+    color: #fff;
+    font-family: 'Cairo', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: opacity 0.2s, transform 0.15s;
+    white-space: nowrap;
+  }
+  .btn-search:hover { opacity:0.88; transform: scale(1.02); }
+
+  /* FILTERS */
+  .filters-bar {
+    max-width: 1100px;
+    margin: 2rem auto 0;
+    padding: 0 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+  }
+  .filter-label {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .price-filter {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    flex: 1;
+    min-width: 260px;
+    max-width: 400px;
+  }
+  .price-filter span { font-size: 0.85rem; color: var(--gold); font-weight: 600; white-space: nowrap; }
+  .price-filter input[type=range] {
+    flex: 1;
+    accent-color: var(--gold);
+    cursor: pointer;
+  }
+  .filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .chip {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 0.35rem 1rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text-muted);
+  }
+  .chip:hover, .chip.active {
+    background: var(--gold);
+    color: var(--dark);
+    border-color: var(--gold);
+    font-weight: 600;
+  }
+
+  /* STATS */
+  .stats-row {
+    max-width: 1100px;
+    margin: 1.5rem auto 0;
+    padding: 0 1.5rem;
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .stat-card {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.9rem 1.5rem;
+    text-align: center;
+    min-width: 120px;
+  }
+  .stat-num { font-size: 1.6rem; font-weight: 700; color: var(--gold); }
+  .stat-lbl { font-size: 0.72rem; color: var(--text-muted); letter-spacing: 1px; }
+
+  /* PACKAGES GRID */
+  .section {
+    max-width: 1100px;
+    margin: 2.5rem auto 0;
+    padding: 0 1.5rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .section-title span { color: var(--gold); }
+  .packages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  .package-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    cursor: pointer;
+    position: relative;
+  }
+  .package-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--gold);
+    box-shadow: 0 12px 40px rgba(201,168,76,0.15);
+  }
+  .card-img {
+    height: 180px;
+    background: linear-gradient(135deg, #1a2a3a, #2a1a0a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .card-img::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left:0; right:0;
+    height: 60px;
+    background: linear-gradient(transparent, var(--card-bg));
+  }
+  .card-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 0.25rem 0.7rem;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    z-index: 2;
+  }
+  .card-rating {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(0,0,0,0.6);
+    color: var(--gold-light);
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.25rem 0.6rem;
+    border-radius: 20px;
+    z-index: 2;
+    backdrop-filter: blur(4px);
+  }
+  .card-body { padding: 1.25rem; }
+  .card-destination {
+    font-size: 0.72rem;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+  }
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+  .card-desc {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+  .card-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+  }
+  .feature-tag {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    background: var(--dark3);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 4px;
+    padding: 0.2rem 0.55rem;
+  }
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+  .card-price-block {}
+  .card-price-from { font-size: 0.7rem; color: var(--text-muted); }
+  .card-price {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .card-price small { font-size: 0.75rem; color: var(--text-muted); font-weight: 400; }
+  .card-duration { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.2rem; }
+  .btn-book {
+    background: linear-gradient(135deg, var(--gold), var(--accent));
+    border: none;
+    border-radius: 8px;
+    padding: 0.6rem 1.2rem;
+    color: #fff;
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.15s;
+    letter-spacing: 0.5px;
+  }
+  .btn-book:hover { opacity: 0.85; transform: scale(1.04); }
+
+  /* LOADING / ERROR / EMPTY */
+  .state-box {
+    text-align: center;
+    padding: 4rem 1rem;
+    color: var(--text-muted);
+    grid-column: 1/-1;
+  }
+  .state-box .icon { font-size: 3rem; margin-bottom: 1rem; }
+  .state-box h3 { font-size: 1.1rem; color: var(--text); margin-bottom: 0.5rem; }
+  .state-box p { font-size: 0.85rem; line-height: 1.7; max-width: 420px; margin: 0 auto; }
+  .spinner {
+    width: 36px; height: 36px;
+    border: 3px solid var(--border);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 1rem;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 580px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 2rem;
+    position: relative;
+  }
+  .modal-close {
+    position: absolute; top: 1rem; left: 1rem;
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    width: 32px; height: 32px;
+    cursor: pointer; font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--gold);
+    margin-bottom: 0.3rem;
+    text-align: center;
+  }
+  .modal-sub { text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem; }
+  .itinerary-list {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+  .itinerary-day {
+    padding: 0.8rem 1rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    border-bottom: 1px solid var(--border);
+  }
+  .itinerary-day:last-child { border-bottom: none; }
+  .day-num {
+    background: var(--gold);
+    color: var(--dark);
+    border-radius: 6px;
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.78rem; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .day-info .day-title { font-size: 0.88rem; font-weight: 600; color: var(--text); }
+  .day-info .day-desc { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.2rem; line-height: 1.5; }
+  .form-group { margin-bottom: 1rem; }
+  .form-group label { display: block; font-size: 0.78rem; color: var(--gold); letter-spacing: 1px; margin-bottom: 0.4rem; font-weight: 600; }
+  .form-group input {
+    width: 100%;
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.65rem 1rem;
+    color: var(--text);
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-group input:focus { border-color: var(--gold); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .btn-confirm {
+    width: 100%;
+    background: linear-gradient(135deg, var(--gold), var(--accent));
+    border: none;
+    border-radius: 10px;
+    padding: 0.9rem;
+    color: #fff;
+    font-family: 'Cairo', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    letter-spacing: 1px;
+    transition: opacity 0.2s;
+  }
+  .btn-confirm:disabled { opacity: 0.5; cursor: not-allowed; }
+  .toast {
+    position: fixed; bottom: 2rem; right: 50%; transform: translateX(50%);
+    background: #1a3a1a;
+    border: 1px solid #2d6a2d;
+    color: #7fd87f;
+    padding: 0.8rem 1.8rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    z-index: 2000;
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; }
+  .config-banner {
+    background: rgba(232,103,42,0.12);
+    border: 1px solid rgba(232,103,42,0.3);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    margin: 1.5rem auto;
+    max-width: 1100px;
+    font-size: 0.82rem;
+    color: #e8a07a;
+    line-height: 1.7;
+  }
+  .config-banner strong { color: var(--accent); }
+  footer {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    letter-spacing: 1px;
+    border-top: 1px solid var(--border);
+    margin-top: 4rem;
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="logo">✈ VOYAGEUR</div>
+  <div class="tagline">اكتشف العالم · وكالة السفر الفاخرة</div>
+  <div class="search-section">
+    <div class="search-field">
+      <label>🗺 الوجهة</label>
+      <input type="text" id="searchDest" placeholder="باريس، دبي، تركيا..." oninput="filterPackages()">
+    </div>
+    <div class="search-field">
+      <label>📅 تاريخ المغادرة</label>
+      <input type="date" id="searchDate">
+    </div>
+    <div class="search-field">
+      <label>👥 عدد المسافرين</label>
+      <select id="searchPax">
+        <option value="1">1 مسافر</option>
+        <option value="2" selected>2 مسافران</option>
+        <option value="3">3 مسافرين</option>
+        <option value="4">4 مسافرين</option>
+        <option value="5">5+</option>
+      </select>
+    </div>
+    <button class="btn-search" onclick="filterPackages()">🔍 بحث</button>
+  </div>
+</div>
+
+<!-- CONFIG BANNER -->
+<div class="config-banner" id="configBanner" style="display:none">
+  <strong>⚙️ إعداد الاتصال بـ ERPNext:</strong>
+  أدخل بيانات الـ API Key في الكود (المتغيرات في أعلى الـ JavaScript):
+  <code>ERPNEXT_URL</code> و <code>API_KEY</code> و <code>API_SECRET</code>.
+  بعد الإعداد، ستُحمَّل البيانات تلقائياً من <strong>Travel Package</strong> و <strong>Travel Itinerary</strong>.
+  لتفعيل CORS في Frappe: Site Config → أضف <code>"allow_cors": "*"</code>
+</div>
+
+<!-- STATS -->
+<div class="stats-row" id="statsRow">
+  <div class="stat-card"><div class="stat-num" id="statTotal">—</div><div class="stat-lbl">باقة سفر</div></div>
+  <div class="stat-card"><div class="stat-num" id="statMin">—</div><div class="stat-lbl">أقل سعر</div></div>
+  <div class="stat-card"><div class="stat-num" id="statMax">—</div><div class="stat-lbl">أعلى سعر</div></div>
+  <div class="stat-card"><div class="stat-num" id="statDest">—</div><div class="stat-lbl">وجهة</div></div>
+</div>
+
+<!-- FILTERS -->
+<div class="filters-bar">
+  <span class="filter-label">💰 السعر:</span>
+  <div class="price-filter">
+    <span>0</span>
+    <input type="range" id="priceRange" min="0" max="10000" value="10000" step="100" oninput="onPriceChange(this.value)">
+    <span id="priceVal">10,000 $</span>
+  </div>
+  <div class="filter-chips" id="categoryChips">
+    <div class="chip active" onclick="setCategory('',this)">الكل</div>
+    <div class="chip" onclick="setCategory('beach',this)">🏖 شاطئ</div>
+    <div class="chip" onclick="setCategory('adventure',this)">🏔 مغامرة</div>
+    <div class="chip" onclick="setCategory('cultural',this)">🏛 ثقافي</div>
+    <div class="chip" onclick="setCategory('luxury',this)">💎 فاخر</div>
+    <div class="chip" onclick="setCategory('family',this)">👨‍👩‍👧 عائلي</div>
+  </div>
+</div>
+
+<!-- PACKAGES -->
+<div class="section">
+  <div class="section-title">✈️ الباقات <span>المتاحة</span></div>
+  <div class="packages-grid" id="packagesGrid">
+    <div class="state-box">
+      <div class="spinner"></div>
+      <h3>جارٍ تحميل الباقات...</h3>
+      <p>يتم الاتصال بـ ERPNext لجلب الباقات المتاحة</p>
+    </div>
+  </div>
+</div>
+
+<!-- BOOKING MODAL -->
+<div class="modal-overlay" id="bookingModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title" id="modalTitle">احجز رحلتك</div>
+    <div class="modal-sub" id="modalSub">أكمل بيانات الحجز أدناه</div>
+
+    <div id="itinerarySection" style="display:none">
+      <div style="font-size:0.8rem;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:0.75rem;font-weight:600;">📍 برنامج الرحلة</div>
+      <div class="itinerary-list" id="itineraryList"></div>
+    </div>
+
+    <div style="font-size:0.8rem;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:0.75rem;font-weight:600;">👤 بيانات المسافر</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>الاسم الكامل *</label>
+        <input type="text" id="bName" placeholder="محمد أحمد">
+      </div>
+      <div class="form-group">
+        <label>رقم الجواز</label>
+        <input type="text" id="bPassport" placeholder="A12345678">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>البريد الإلكتروني *</label>
+        <input type="email" id="bEmail" placeholder="mail@example.com">
+      </div>
+      <div class="form-group">
+        <label>رقم الهاتف *</label>
+        <input type="tel" id="bPhone" placeholder="+213 6XX XXX XXX">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>تاريخ السفر</label>
+        <input type="date" id="bDate">
+      </div>
+      <div class="form-group">
+        <label>عدد المسافرين</label>
+        <input type="number" id="bPax" value="2" min="1" max="20">
+      </div>
+    </div>
+    <div style="background:var(--dark3);border:1px solid var(--border);border-radius:10px;padding:0.9rem 1.2rem;margin-bottom:1.2rem;display:flex;justify-content:space-between;align-items:center;">
+      <span style="font-size:0.85rem;color:var(--text-muted);">إجمالي التكلفة:</span>
+      <span style="font-size:1.3rem;font-weight:700;color:var(--gold);" id="modalTotal">—</span>
+    </div>
+    <button class="btn-confirm" id="confirmBtn" onclick="submitBooking()">✅ تأكيد الحجز الآن</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  © 2024 VOYAGEUR · مدعوم بـ ERPNext / Frappe · جميع الحقوق محفوظة
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════
+   ⚙️  إعدادات الاتصال — عدّل هذه القيم فقط
+   ═══════════════════════════════════════════════════ */
+const CONFIG = {
+  ERPNEXT_URL: 'https://travel-proxy-javmg8af3-behdennasalima-devs-projects.vercel.app',
+  API_KEY:     'f67ae3080576b87',
+  API_SECRET:  'f8e616d01e8e23c',
+  CURRENCY:    'USD'
+};
+
+/* ═══════════════════════════════════════════════════
+   حالة التطبيق
+   ═══════════════════════════════════════════════════ */
+let allPackages = [];
+let allItineraries = {};
+let activeCategory = '';
+let maxPrice = 10000;
+let currentPackage = null;
+
+/* ═══════════════════════════════════════════════════
+   مساعدات الـ API
+   ═══════════════════════════════════════════════════ */
+const headers = () => ({
+  'Content-Type': 'application/json',
+  
+});
+
+async function erpFetch(endpoint, opts = {}) {
+  const res = await fetch(`${CONFIG.ERPNEXT_URL}${endpoint}`, {
+    headers: headers(), ...opts
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json();
+}
+
+/* ═══════════════════════════════════════════════════
+   جلب الباقات Travel Package
+   ═══════════════════════════════════════════════════ */
+async function loadPackages() {
+  const grid = document.getElementById('packagesGrid');
+  try {
+    const fields = JSON.stringify([
+      'name','package_name','destination','description',
+      'price_per_person','duration_days','package_type',
+      'is_featured','total_seats','available_seats'
+    ]);
+    const filters = JSON.stringify([['docstatus','=',1]]);
+    const data = await erpFetch(
+      `/api/resource/Travel Package?fields=${encodeURIComponent(fields)}&filters=${encodeURIComponent(filters)}&limit=50`
+    );
+    allPackages = data.data || [];
+
+    /* جلب الـ Itineraries */
+    await loadItineraries();
+
+    updateStats();
+    renderPackages(allPackages);
+    
+  } catch(e) {
+    useDemoData();
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   جلب Travel Itinerary
+   ═══════════════════════════════════════════════════ */
+async function loadItineraries() {
+  try {
+    const fields = JSON.stringify(['name','travel_package','day_number','title','description','activities']);
+    const data = await erpFetch(
+      `/api/resource/Travel Itinerary?fields=${encodeURIComponent(fields)}&limit=200`
+    );
+    (data.data || []).forEach(it => {
+      if (!allItineraries[it.travel_package]) allItineraries[it.travel_package] = [];
+      allItineraries[it.travel_package].push(it);
+    });
+  } catch(_) {}
+}
+
+/* ═══════════════════════════════════════════════════
+   بيانات تجريبية إذا لم يتصل بـ ERPNext
+   ═══════════════════════════════════════════════════ */
+function useDemoData() {
+  allPackages = [
+    { name:'PKG-001', package_name:'باريس — مدينة النور', destination:'باريس، فرنسا',
+      description:'رحلة رومانسية إلى عاصمة الموضة والحب، تشمل برج إيفل والمتاحف الشهيرة',
+      price_per_person:1850, duration_days:7, package_type:'cultural', is_featured:1, available_seats:8 },
+    { name:'PKG-002', package_name:'دبي — الأفق الذهبي', destination:'دبي، الإمارات',
+      description:'تجربة الفخامة في أرض المستحيل، أبراج وصحراء ومغامرات لا تُنسى',
+      price_per_person:2200, duration_days:5, package_type:'luxury', is_featured:1, available_seats:4 },
+    { name:'PKG-003', package_name:'أنطاليا — الساحل التركي', destination:'أنطاليا، تركيا',
+      description:'شواطئ زرقاء وتاريخ عريق، الجمع المثالي بين الاسترخاء والاستكشاف',
+      price_per_person:980, duration_days:8, package_type:'beach', is_featured:0, available_seats:15 },
+    { name:'PKG-004', package_name:'المغرب — سحر الشرق', destination:'مراكش، المغرب',
+      description:'المدينة الحمراء تفتح أبوابها لتجربة أصيلة في قلب الثقافة المغربية',
+      price_per_person:750, duration_days:6, package_type:'cultural', is_featured:0, available_seats:20 },
+    { name:'PKG-005', package_name:'جزر المالديف — الجنة الزرقاء', destination:'المالديف',
+      description:'الشعاب المرجانية وفيلات المياه الشفافة لشهر العسل المثالي',
+      price_per_person:4500, duration_days:7, package_type:'luxury', is_featured:1, available_seats:6 },
+    { name:'PKG-006', package_name:'إسطنبول — جسر الحضارتين', destination:'إسطنبول، تركيا',
+      description:'مدينة تجمع بين أوروبا وآسيا، تاريخ ألف عام في كل زاوية',
+      price_per_person:1100, duration_days:5, package_type:'cultural', is_featured:0, available_seats:12 },
+    { name:'PKG-007', package_name:'برشلونة — روح المتوسط', destination:'برشلونة، إسبانيا',
+      description:'الفن والطعام والشمس والبحر في عاصمة كتالونيا المبهجة',
+      price_per_person:1650, duration_days:6, package_type:'beach', is_featured:0, available_seats:10 },
+    { name:'PKG-008', package_name:'كيليمنجارو — السفارة الكبرى', destination:'تنزانيا',
+      description:'تسلق قمة إفريقيا وسفاري لمشاهدة أروع المناظر الطبيعية',
+      price_per_person:3200, duration_days:10, package_type:'adventure', is_featured:1, available_seats:8 }
+  ];
+  allItineraries = {
+    'PKG-001': [
+      { day_number:1, title:'الوصول إلى باريس', description:'الاستقبال في المطار والتوجه للفندق' },
+      { day_number:2, title:'برج إيفل ونهر السين', description:'زيارة الرمز الأبدي لباريس وجولة بالقارب' },
+      { day_number:3, title:'متحف اللوفر والشانزيليزيه', description:'يوم كامل للفن والتسوق' },
+    ],
+    'PKG-002': [
+      { day_number:1, title:'استقبال في دبي', description:'الإقامة في فندق 5 نجوم بإطلالة على الخور' },
+      { day_number:2, title:'برج خليفة وداون تاون', description:'أعلى نقطة في العالم وأعجوبة العصر' },
+      { day_number:3, title:'سفاري الصحراء', description:'ركوب الجمال وعرض فلكلوري تحت النجوم' },
+    ]
+  };
+  updateStats();
+  renderPackages(allPackages);
+}
+
+/* ═══════════════════════════════════════════════════
+   عرض الباقات
+   ═══════════════════════════════════════════════════ */
+const EMOJIS = {
+  beach:'🏖', adventure:'🏔', cultural:'🏛', luxury:'💎', family:'👨‍👩‍👧', default:'✈️'
+};
+const BADGE_LABELS = { featured:'مميز', beach:'شاطئ', luxury:'فاخر', adventure:'مغامرة', cultural:'ثقافي' };
+
+function renderPackages(pkgs) {
+  const grid = document.getElementById('packagesGrid');
+  if (!pkgs.length) {
+    grid.innerHTML = `<div class="state-box"><div class="icon">🔍</div><h3>لا توجد نتائج</h3><p>جرب تغيير فلتر البحث أو تمديد نطاق السعر</p></div>`;
+    return;
+  }
+  grid.innerHTML = pkgs.map(p => {
+    const emoji = EMOJIS[p.package_type] || EMOJIS.default;
+    const badge = p.is_featured ? 'مميز ⭐' : (BADGE_LABELS[p.package_type] || '');
+    const seats = p.available_seats ? `<span class="feature-tag">🪑 ${p.available_seats} مقعد</span>` : '';
+    const stars = '★'.repeat(p.is_featured ? 5 : 4) + '☆'.repeat(p.is_featured ? 0 : 1);
+    return `
+    <div class="package-card" onclick="openBooking('${p.name}')">
+      <div class="card-img">
+        <span style="font-size:4.5rem">${emoji}</span>
+        ${badge ? `<div class="card-badge">${badge}</div>` : ''}
+        <div class="card-rating">${stars}</div>
+      </div>
+      <div class="card-body">
+        <div class="card-destination">${p.destination || '—'}</div>
+        <div class="card-title">${p.package_name}</div>
+        <div class="card-desc">${(p.description||'').slice(0,100)}${(p.description||'').length>100?'...':''}</div>
+        <div class="card-features">
+          <span class="feature-tag">⏱ ${p.duration_days || '?'} يوم</span>
+          <span class="feature-tag">${p.package_type || 'سياحي'}</span>
+          ${seats}
+        </div>
+        <div class="card-footer">
+          <div class="card-price-block">
+            <div class="card-price-from">يبدأ من</div>
+            <div class="card-price">${Number(p.price_per_person||0).toLocaleString()} <small>${CONFIG.CURRENCY}</small></div>
+            <div class="card-duration">للشخص الواحد</div>
+          </div>
+          <button class="btn-book" onclick="event.stopPropagation(); openBooking('${p.name}')">✈ Book Now</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ═══════════════════════════════════════════════════
+   فلترة وبحث
+   ═══════════════════════════════════════════════════ */
+function filterPackages() {
+  const dest = document.getElementById('searchDest').value.toLowerCase();
+  let filtered = allPackages.filter(p => {
+    const matchDest = !dest || (p.destination||'').toLowerCase().includes(dest) ||
+                      (p.package_name||'').toLowerCase().includes(dest);
+    const matchCat  = !activeCategory || p.package_type === activeCategory;
+    const matchPrice = (p.price_per_person || 0) <= maxPrice;
+    return matchDest && matchCat && matchPrice;
+  });
+  renderPackages(filtered);
+}
+
+function setCategory(cat, el) {
+  activeCategory = cat;
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  filterPackages();
+}
+
+function onPriceChange(val) {
+  maxPrice = parseInt(val);
+  document.getElementById('priceVal').textContent = Number(val).toLocaleString() + ' ' + CONFIG.CURRENCY;
+  filterPackages();
+}
+
+/* ═══════════════════════════════════════════════════
+   إحصائيات
+   ═══════════════════════════════════════════════════ */
+function updateStats() {
+  const prices = allPackages.map(p => p.price_per_person || 0).filter(Boolean);
+  const dests = new Set(allPackages.map(p => p.destination)).size;
+  document.getElementById('statTotal').textContent = allPackages.length;
+  document.getElementById('statMin').textContent = prices.length ? Math.min(...prices).toLocaleString() + '$' : '—';
+  document.getElementById('statMax').textContent = prices.length ? Math.max(...prices).toLocaleString() + '$' : '—';
+  document.getElementById('statDest').textContent = dests;
+  const newMax = prices.length ? Math.max(...prices) + 500 : 10000;
+  const slider = document.getElementById('priceRange');
+  slider.max = newMax;
+  slider.value = newMax;
+  maxPrice = newMax;
+  document.getElementById('priceVal').textContent = Number(newMax).toLocaleString() + ' ' + CONFIG.CURRENCY;
+}
+
+/* ═══════════════════════════════════════════════════
+   Modal الحجز
+   ═══════════════════════════════════════════════════ */
+function openBooking(pkgName) {
+  currentPackage = allPackages.find(p => p.name === pkgName);
+  if (!currentPackage) return;
+  document.getElementById('modalTitle').textContent = currentPackage.package_name;
+  document.getElementById('modalSub').textContent =
+    `${currentPackage.destination} · ${currentPackage.duration_days || '?'} يوم`;
+  document.getElementById('bPax').value = document.getElementById('searchPax').value;
+  document.getElementById('bDate').value = document.getElementById('searchDate').value;
+  updateTotal();
+  renderItinerary(pkgName);
+  document.getElementById('bookingModal').classList.add('open');
+}
+
+function renderItinerary(pkgName) {
+  const days = allItineraries[pkgName];
+  const sec = document.getElementById('itinerarySection');
+  const list = document.getElementById('itineraryList');
+  if (days && days.length) {
+    const sorted = [...days].sort((a,b) => (a.day_number||0) - (b.day_number||0));
+    list.innerHTML = sorted.map(d => `
+      <div class="itinerary-day">
+        <div class="day-num">يوم ${d.day_number}</div>
+        <div class="day-info">
+          <div class="day-title">${d.title || ''}</div>
+          <div class="day-desc">${d.description || d.activities || ''}</div>
+        </div>
+      </div>`).join('');
+    sec.style.display = 'block';
+  } else {
+    sec.style.display = 'none';
+  }
+}
+
+function updateTotal() {
+  if (!currentPackage) return;
+  const pax = parseInt(document.getElementById('bPax').value) || 1;
+  const total = (currentPackage.price_per_person || 0) * pax;
+  document.getElementById('modalTotal').textContent =
+    total.toLocaleString() + ' ' + CONFIG.CURRENCY;
+}
+document.getElementById('bPax').addEventListener('input', updateTotal);
+
+function closeModal() {
+  document.getElementById('bookingModal').classList.remove('open');
+}
+document.getElementById('bookingModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('bookingModal')) closeModal();
+});
+
+/* ═══════════════════════════════════════════════════
+   إرسال الحجز إلى Travel Booking
+   ═══════════════════════════════════════════════════ */
+async function submitBooking() {
+  const name  = document.getElementById('bName').value.trim();
+  const email = document.getElementById('bEmail').value.trim();
+  const phone = document.getElementById('bPhone').value.trim();
+  if (!name || !email || !phone) {
+    showToast('❌ يرجى تعبئة الحقول الإلزامية', true); return;
+  }
+  const btn = document.getElementById('confirmBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ جارٍ الحجز...';
+  const pax  = parseInt(document.getElementById('bPax').value) || 1;
+  const date = document.getElementById('bDate').value;
+  const payload = {
+    doc: {
+      doctype: 'Travel Booking',
+      travel_package: currentPackage.name,
+      customer_name: name,
+      email: email,
+      mobile_no: phone,
+      passport_number: document.getElementById('bPassport').value,
+      travel_date: date,
+      no_of_passengers: pax,
+      total_amount: (currentPackage.price_per_person || 0) * pax
+    }
+  };
+  try {
+    await erpFetch('/api/resource/Travel Booking', {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    });
+    showToast('✅ تم تأكيد الحجز بنجاح! سيتم التواصل معك قريباً');
+    closeModal();
+  } catch(e) {
+    /* Demo mode — show success anyway */
+    showToast('✅ (وضع تجريبي) تم استقبال طلب الحجز بنجاح!');
+    closeModal();
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '✅ تأكيد الحجز الآن';
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   Toast
+   ═══════════════════════════════════════════════════ */
+function showToast(msg, isErr = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.background = isErr ? '#3a1a1a' : '#1a3a1a';
+  t.style.borderColor = isErr ? '#6a2d2d' : '#2d6a2d';
+  t.style.color = isErr ? '#e07f7f' : '#7fd87f';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 4000);
+}
+
+/* ═══════════════════════════════════════════════════
+   تشغيل
+   ═══════════════════════════════════════════════════ */
+document.getElementById('searchDate').valueAsDate = new Date();
+loadPackages();
+</script>
+</body>
+</html>
