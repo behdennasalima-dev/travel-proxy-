@@ -1,0 +1,5 @@
+{
+  "name": "travel-proxy",
+  "version": "1.0.0",
+  "description": "Proxy for ERPNext Travel Agency API"
+}

@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/api/erpnext/:path*", "destination": "/api/erpnext?path=:path*" }
+  ]
+}
